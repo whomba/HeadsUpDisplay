@@ -5,6 +5,7 @@ module.exports = function(grunt) {
         "build/css/main.css": [
             "src/css/main.less",
             "src/css/timeDate.less",
+            "src/css/calendar.less",
             "src/css/weather.less"
         ]
     };
@@ -121,6 +122,7 @@ module.exports = function(grunt) {
                 files: {
                     'build/js/app.js': [
                         "src/js/weather/weather.js",
+                        "src/js/calendar/calendar.js",
                         "src/js/timeDate/timeDate.js"
                     ]
                 }
