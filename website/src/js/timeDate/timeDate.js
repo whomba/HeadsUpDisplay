@@ -12,22 +12,18 @@ var TimeDate = React.createClass({
         },
 
         generateTimeObj:function(){
-            var now = new Date(),
-                hours = now.getHours(),
-                ampm = hours > 12 ? "PM" : "AM";
-            hours = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours );
+            var time,
+                now = new Date();
+
+            time = non24hourTime( now, false );
 
             return {
-                time: this.ns( hours ) + ":" + this.ns( now.getMinutes()) + " " + ampm,
-                day: days[now.getDate()],
-                month: months[now.getMonth()],
-                date: this.ns( now.getDate() ),
+                time: time.t + " " + time.ampm,
+                day: daysLong[ now.getDay() ],
+                month: monthsLong[now.getMonth()],
+                date: ns( now.getDate() ),
                 year: now.getFullYear()
             };
-        },
-
-        ns:function( n ){
-          return n<= 9  ? "0" + n.toString() : n.toString();
         },
 
         render:function(){
@@ -37,7 +33,7 @@ var TimeDate = React.createClass({
                         {this.state.time}
                     </h2>
                     <h2 className="date">
-                        {this.state.day} {this.state.month} {this.state.date}, {this.state.year}
+                        {this.state.day}, {this.state.month} {this.state.date}, {this.state.year}
                     </h2>
                     <SpecialDay/>
                 </div>
@@ -81,9 +77,7 @@ var TimeDate = React.createClass({
             }
             return specialDay;
         }
-    }),
-    days = ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"],
-    months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    });
 
 React.render(
     <TimeDate />,

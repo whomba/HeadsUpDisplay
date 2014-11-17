@@ -2,13 +2,19 @@
 module.exports = function(grunt) {
 
     var cssFiles = {
-        "build/css/main.css": [
-            "src/css/main.less",
-            "src/css/timeDate.less",
-            "src/css/calendar.less",
-            "src/css/weather.less"
-        ]
-    };
+            "build/css/main.css": [
+                "src/css/reset.css",
+                "src/css/main.less",
+                "src/css/timeDate.less",
+                "src/css/calendar.less",
+                "src/css/weather.less"
+            ]
+        },
+        jsFiles={
+            "build/js/utils.js":[
+                "src/js/utils/timeUtils.js"
+            ]
+        };
 
     // Project configuration.
     grunt.initConfig({
@@ -30,29 +36,16 @@ module.exports = function(grunt) {
             }
         },
 
-//        uglify: {
-//            options: {
-//                mangle: false,
-//                compress: false,
-//                beautify: true
-//            },
-//            build: {
-//                files: {
-//                    "target/js/app.js": [
-//                        "src/js/app/ASB.js",
-//                        "src/js/app/ASB.Constants.js",
-//                        "src/js/app/controller/ASB.Controller.AJAX.js",
-//                        "src/js/app/utils/ASB.Utils.js",
-//                        "src/js/app/manager/ASB.Manager.Audio.js",
-//                        "src/js/app/model/ASB.Model.Animals.js",
-//                        "src/js/app/view/ASB.View.js",
-//                        "src/js/app/view/dialog/ASB.View.Dialog.js",
-//                        "src/js/app/view/dialog/ASB.View.Dialog.Answer.js",
-//                        "src/js/app/view/ASB.View.GameScreen.js"
-//                    ]
-//                }
-//            }
-//        },
+        uglify: {
+            options: {
+                mangle: false,
+                compress: false,
+                beautify: true
+            },
+            build: {
+                files: jsFiles
+            }
+        },
 
         copy: {
             html: {
@@ -61,25 +54,7 @@ module.exports = function(grunt) {
                 src: ['html/*'],
                 dest: 'build/',
                 cwd: "src"
-            }//,
-//            img: {
-//                expand: true,
-//                src: ['img/**/*'],
-//                dest: 'target/',
-//                cwd: "src/"
-//            },
-//            audio: {
-//                expand: true,
-//                src: ['audio/**/*'],
-//                dest: 'target/',
-//                cwd: "src/"
-//            },
-//            js: {
-//                expand: true,
-//                src: ['js/libs/**/*'],
-//                dest: 'target/',
-//                cwd: "src/"
-//            }
+            }
         },
 
         clean:[ "build/*"],
@@ -90,31 +65,14 @@ module.exports = function(grunt) {
                 tasks: ["less:dev"]
 
             },
-
             js: {
                 files: ["src/js/**/*.js"],
-                tasks: ["react:mainApp"]
+                tasks: ["react:mainApp", "uglify:build"]
             },
-//
-//            js_libs: {
-//                files: ["src/js/libs/**/*.js"],
-//                tasks: ["copy:js"]
-//            },
-//
             html: {
                 files: ["src/html/*"],
                 tasks: ["copy:html"]
             }
-//
-//            img: {
-//                files: ["src/img/**/*"],
-//                tasks: ["copy:img"]
-//            },
-//
-//            audio: {
-//                files: ["src/audio/**/*"],
-//                tasks: ["copy:audio"]
-//            }
         },
 
         react: {
@@ -128,18 +86,16 @@ module.exports = function(grunt) {
                 }
             }
         }
-
-
     });
 
     //grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
-//    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-react');
 
-    grunt.registerTask('default', ['clean', 'less:prod', 'react', "copy"]);
+    grunt.registerTask('default', ['clean', 'less:prod', 'react', 'uglify:build', "copy"]);
 
 };
