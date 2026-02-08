@@ -3,6 +3,104 @@
 ## Project Vision
 A modular, minimalistic heads-up display with a 9-slice perimeter layout showing personalized information widgets. Designed for portrait mode (landscape compatible) on a dedicated display device.
 
+## Target Hardware
+- **Current**: Laptop monitor
+- **Future**: External monitor (portrait orientation)
+- **Recommended specs**:
+  - 1080x1920 resolution (portrait) or higher
+  - Always-on display capability
+  - Touch screen optional but nice-to-have
+
+## API Keys & Setup
+
+To run this project, you'll need to obtain API keys from the following services:
+
+### 1. Weather API
+**Recommended: OpenWeatherMap (Free tier available)**
+- **Sign up**: https://openweathermap.org/api
+- **Free tier**: 1,000 calls/day, 60 calls/minute
+- **What you need**: API Key
+- **Cost**: Free (or $40/month for more calls)
+- **Alternative**: Visual Crossing (https://www.visualcrossing.com/) - 1,000 calls/day free
+
+**Steps:**
+1. Create account at OpenWeatherMap
+2. Go to API Keys section
+3. Generate new API key
+4. Add to `.env` as `WEATHER_API_KEY`
+
+### 2. Google Calendar API
+**Google Cloud Platform**
+- **Console**: https://console.cloud.google.com/
+- **Documentation**: https://developers.google.com/calendar/api/quickstart/nodejs
+- **Cost**: Free (with generous quotas)
+
+**Steps:**
+1. Go to Google Cloud Console
+2. Create a new project (or select existing)
+3. Enable "Google Calendar API"
+4. Create credentials → OAuth 2.0 Client ID → Web application
+5. Add authorized redirect URIs: `http://localhost:3000/api/auth/google/callback`
+6. Download credentials JSON
+7. Add `GOOGLE_CALENDAR_CLIENT_ID` and `GOOGLE_CALENDAR_CLIENT_SECRET` to `.env`
+
+**Note**: First time running, you'll need to authorize the app to access your calendar
+
+### 3. Google Maps API (for Traffic)
+**Google Cloud Platform**
+- **Console**: https://console.cloud.google.com/
+- **Documentation**: https://developers.google.com/maps/documentation/directions/overview
+- **Cost**: $200 free credit/month (then $5-$10 per 1000 requests)
+
+**Steps:**
+1. In same Google Cloud project as Calendar
+2. Enable "Directions API"
+3. Create API Key in Credentials
+4. Restrict key to Directions API only (security best practice)
+5. Add to `.env` as `GOOGLE_MAPS_API_KEY`
+
+### 4. RSS Feeds
+**No API key needed!** RSS feeds are publicly accessible. You just need URLs.
+
+**Popular RSS sources:**
+- Hacker News: `https://news.ycombinator.com/rss`
+- Reddit: `https://www.reddit.com/r/[subreddit]/.rss`
+- News sites: Most have `/rss` or `/feed` endpoints
+- Blogs: Usually have RSS icon in footer
+
+**Finding RSS feeds:**
+- Look for RSS icon on websites
+- Try appending `/rss`, `/feed`, or `/feed.xml` to site URLs
+- Use browser extension: "RSS Feed Reader" or "Feedbro"
+
+### 5. Optional APIs (Phase 3+)
+
+**Air Quality - AirNow API (EPA)**
+- **Sign up**: https://docs.airnow.gov/account/request/
+- **Cost**: Free
+- **Approval**: Usually 1-2 business days
+
+**King County Metro Transit**
+- **API**: https://kingcounty.gov/en/dept/metro/travel-options/metro-online/developer-resources
+- **OneBusAway API**: http://pugetsound.onebusaway.org/p/OneBusAwayApiService
+- **Cost**: Free, no key needed for basic usage
+
+**Package Tracking**
+- Manual input or email parsing (no API needed initially)
+- **AfterShip API**: https://www.aftership.com/docs/api/4 (free tier available)
+
+**Stock/Crypto**
+- **Alpha Vantage**: https://www.alphavantage.co/ (free, 5 calls/min)
+- **Finnhub**: https://finnhub.io/ (free tier: 60 calls/min)
+- **CoinGecko**: https://www.coingecko.com/en/api (free, no key needed)
+
+### API Key Security
+⚠️ **IMPORTANT**:
+- Never commit `.env` file to git (already in `.gitignore`)
+- Use backend proxy for all API calls (keeps keys server-side)
+- Rotate keys if accidentally exposed
+- Set up API key restrictions in cloud consoles
+
 ## Core Features
 
 ### Phase 1: Foundation
@@ -65,33 +163,42 @@ A modular, minimalistic heads-up display with a 9-slice perimeter layout showing
 
 ## Architecture
 
-### Technology Stack
+### Technology Stack ✅ CONFIRMED
 
 **Frontend:**
-- React 18 with TypeScript
-- Vite (dev server + build)
-- CSS Modules or Tailwind CSS
-- React Query (data fetching/caching)
-- Axios for HTTP requests
-- Socket.io-client (future WebSocket support)
+- **React 18+** with **TypeScript** (strict mode)
+- **Vite 5+** (blazing fast dev server + optimized builds)
+- **CSS Modules** or **Tailwind CSS** (styling approach)
+- **TanStack Query (React Query)** v5 (data fetching, caching, refetching)
+- **Axios** (HTTP client with interceptors)
+- **Socket.io-client** (future WebSocket support for motion sensors)
+- **date-fns** (date manipulation)
 
 **Backend:**
-- Node.js + Express
-- TypeScript
-- Socket.io (future real-time features)
-- node-cron (scheduled tasks)
-- RSS parser
-- Google APIs client library
+- **Node.js 18+** with **Express**
+- **TypeScript** (strict mode, shared types with frontend)
+- **Socket.io** (future real-time features)
+- **node-cron** (scheduled tasks for cache warming)
+- **rss-parser** (RSS feed parsing)
+- **googleapis** (Google Calendar, Google Maps APIs)
+- **axios** (for external API calls)
+- **dotenv** (environment variables)
 
 **Testing:**
-- Vitest (unit tests)
-- React Testing Library (component tests)
-- Playwright (E2E, if needed)
+- **Vitest** (unit tests - fast, Vite-native)
+- **React Testing Library** (component tests)
+- **Playwright** (E2E, if needed)
 
-**DevOps:**
-- Docker (optional, for deployment)
-- PM2 (process management)
-- Nginx (reverse proxy)
+**Development Tools:**
+- **ESLint** + **Prettier** (code quality)
+- **TypeScript ESLint** (type-aware linting)
+- **Husky** (git hooks)
+- **lint-staged** (pre-commit checks)
+
+**DevOps/Deployment:**
+- **PM2** (process management, auto-restart)
+- **Docker** (optional, for containerized deployment)
+- **Nginx** (optional, reverse proxy for production)
 
 ### Project Structure
 
@@ -400,16 +507,68 @@ CACHE_TTL_RSS=900      # 15 minutes
 5. **Phase 5**: Add RSS widget
 6. **Phase 6**: Polish, testing, deployment
 
+## Getting Started
+
+### Prerequisites
+- Node.js 18+ and npm/yarn
+- Git
+- Text editor (VS Code recommended)
+
+### Initial Setup
+
+1. **Obtain API keys** (see API Keys & Setup section above)
+   - Start with OpenWeatherMap (immediate access)
+   - Google Calendar can be set up later
+   - RSS needs no keys
+
+2. **Project will be created as:**
+   ```
+   HeadsUpDisplay/
+   ├── website/        # Old project (keep for reference)
+   ├── client/         # New React app
+   ├── server/         # New Express backend
+   └── shared/         # Shared TypeScript types
+   ```
+
+3. **Development mode:**
+   ```bash
+   # Terminal 1 - Backend
+   cd server
+   npm run dev
+
+   # Terminal 2 - Frontend
+   cd client
+   npm run dev
+   ```
+
+4. **Access at**: `http://localhost:5173` (Vite dev server)
+
+### Configuration
+
+Create `.env` file in project root with your API keys (see Configuration section).
+
 ## Deployment
 
-### Target Device
-- Raspberry Pi (recommended) or similar
-- Display in portrait orientation
-- Kiosk mode (full screen browser)
-- Auto-start on boot
+### Current Setup (Development)
+- **Device**: Laptop monitor
+- **Mode**: Browser window
+- **Development**: Hot reload enabled
+- **Access**: http://localhost:5173
 
-### Process Management
+### Future Production Setup
+- **Device**: External monitor (portrait orientation recommended)
+- **Options**:
+  - Laptop driving external monitor
+  - Raspberry Pi + dedicated display
+  - Old tablet/iPad in kiosk mode
+- **Kiosk mode**: Full screen browser
+
+### Process Management (Production)
 ```bash
+# Build for production
+npm run build
+
+# Start with PM2
 pm2 start server/dist/index.js --name hud-server
 pm2 startup
 pm2 save
@@ -417,19 +576,44 @@ pm2 save
 
 ### Browser Kiosk Mode
 ```bash
-# Chromium kiosk mode
+# Chromium/Chrome kiosk mode (Linux/Pi)
 chromium-browser --kiosk --app=http://localhost:3000
+
+# Chrome kiosk mode (Mac)
+open -a "Google Chrome" --args --kiosk --app=http://localhost:3000
+
+# Auto-start on boot (systemd service or startup script)
+```
+
+### Docker Deployment (Optional)
+```bash
+docker-compose up -d
 ```
 
 ## Next Steps
 
-1. Initialize new project structure
-2. Set up TypeScript configs
-3. Create basic Express server
-4. Create basic Vite React app
-5. Implement grid layout
-6. Build first widget (TimeDate)
-7. Continue with remaining widgets
+### Immediate (Phase 1)
+1. ✅ Create comprehensive plan
+2. Initialize new project structure (client/server/shared folders)
+3. Set up TypeScript configs
+4. Create basic Express server with health check
+5. Create basic Vite React app with TypeScript
+6. Set up basic routing and dev environment
+7. Create `.env.example` template
+
+### Phase 2
+1. Implement 9-slice grid layout component
+2. Make it responsive (portrait/landscape)
+3. Build simple TimeDate widget to test architecture
+4. Verify widget plugin system works
+
+### Phase 3+
+1. Build Weather widget with multi-location logic
+2. Build Calendar widget with traffic alerts
+3. Build RSS widget
+4. Add tests
+5. Polish UI/UX
+6. Deploy to external monitor
 
 ## Future TODO List
 - [ ] Camera integration for person detection
