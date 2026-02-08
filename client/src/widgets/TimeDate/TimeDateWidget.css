@@ -1,0 +1,36 @@
+.timedate-widget {
+  text-align: center;
+}
+
+.timedate-time {
+  font-family: 'Courier New', Monaco, monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00ff88;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.timedate-date {
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Size variations */
+.widget-container-small .timedate-time {
+  font-size: 1.2rem;
+}
+
+.widget-container-large .timedate-time {
+  font-size: 2rem;
+}
+
+.widget-container-small .timedate-date {
+  font-size: 0.65rem;
+}
+
+.widget-container-large .timedate-date {
+  font-size: 0.85rem;
+}
