@@ -1,0 +1,48 @@
+/* Global App Styles - Grid layout handles most styling */
+
+#root {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Utility classes that can be used in widgets */
+.data-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.data-row:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.data-value {
+  font-family: 'Courier New', Monaco, monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00ff88;
+  line-height: 1;
+}
+
+.data-label {
+  font-size: 0.7rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+code {
+  background: rgba(0, 212, 255, 0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  color: #00d4ff;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85em;
+}

@@ -1,0 +1,82 @@
+.widget-container {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  margin-bottom: 0.75rem;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.widget-container:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(0, 212, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.15);
+}
+
+.widget-container:last-child {
+  margin-bottom: 0;
+}
+
+/* Header */
+.widget-header {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.widget-title {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #00d4ff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Content */
+.widget-content {
+  padding: 0.75rem;
+  color: #e0e0e0;
+}
+
+/* Size variants */
+.widget-container-small .widget-content {
+  padding: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.widget-container-large .widget-content {
+  padding: 1rem;
+  font-size: 1.05rem;
+}
+
+/* Widget specific styles */
+.widget-container .data-value {
+  font-family: 'Courier New', Monaco, monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00ff88;
+  line-height: 1;
+}
+
+.widget-container .data-label {
+  font-size: 0.7rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+.widget-container .data-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.widget-container .data-row:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
